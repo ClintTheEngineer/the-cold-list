@@ -26,6 +26,7 @@ function Login({ setToken }) {
 
   return (
     <div>
+      <button onClick={() => window.location.href = '/'}>Home</button>
       <h2>Login</h2>
       <input
         type="text"
