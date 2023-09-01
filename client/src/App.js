@@ -5,7 +5,7 @@ import TodoForm from './components/TodoForm';
 import Login from './components/Login'; 
 
 
-function App({ component: Component, isAuthenticated, ...rest }) {
+function App() {
   const [token, setToken] = useState('');
 
   return (
