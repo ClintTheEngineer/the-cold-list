@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute'
 import TodoForm from './components/TodoForm';
 import Login from './components/Login'; 
+import Register from './components/Register';
 
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
       <Routes>
       <Route path="*" element={<PrivateRoute />} component={TodoForm} isAuthenticated={token !== ''} />
       <Route path="/Login" exact element={<Login setToken={setToken} />} />
+      <Route path="/register" element={<Register />} />
       </Routes>
     </Router>
     </div>

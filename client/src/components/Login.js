@@ -18,6 +18,7 @@ function Login({ setToken }) {
 
       if (data.token) {
         setToken(data.token); // Set the token in the App component's state
+        console.log(data.token)
       }
     } catch (error) {
       console.error(error);

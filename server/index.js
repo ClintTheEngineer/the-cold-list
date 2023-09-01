@@ -5,6 +5,10 @@ const pool = require('./db');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+const crypto = require('crypto');
+const secretKey = crypto.randomBytes(32).toString('hex');
+
+
 const app = express();
 
 // Middleware
@@ -13,16 +17,42 @@ app.use(express.json());
 
 // Routes
 
+
+
+
+// Add this route before your other routes
+app.get('/users', async (req, res) => {
+  try {
+    const users = await pool.query('SELECT * FROM Users');
+    console.log(users.rows)
+    // Check that users.rows is a valid array of objects
+    if (Array.isArray(users.rows)) {
+      // Send the list of users as a JSON response
+      res.json(users.rows);
+    } else {
+      // Handle unexpected data structure
+      res.status(500).send('Unexpected data structure');
+    }
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Server error');
+  }
+});
+
+
+
+
+
 // Register
 app.post('/register', async (req, res) => {
     try {
-      const { username, password } = req.body;
+      const { username, email, password } = req.body;
   
       const hashedPassword = await bcrypt.hash(password, 10);
   
       await pool.query(
         'INSERT INTO Users (user_id, username, email) VALUES ($1, $2, $3)',
-        [username, hashedPassword]
+        [username, email, hashedPassword]
       );
   
       res.status(201).send('User registered successfully');
@@ -32,10 +62,12 @@ app.post('/register', async (req, res) => {
     }
   });
 
+
+
 // Login
 app.post('/login', async (req, res) => {
     try {
-      const { user_id, username, email } = req.body;
+      const { username, password } = req.body;
   
       const user = await pool.query(
         'SELECT * FROM Users WHERE username = $1',
@@ -52,14 +84,17 @@ app.post('/login', async (req, res) => {
         return res.status(401).json('Invalid credentials');
       }
   
-      const token = jwt.sign({ user: user.rows[0].id }, 'your-secret-key');
-  
+      const token = jwt.sign({ user: user.rows[0].id }, secretKey);
       res.json({ token });
     } catch (error) {
       console.error(error.message);
       res.status(500).send('Server error');
     }
   });
+
+
+
+
 
 // Start the server
 const PORT = process.env.PORT || 5000;
