@@ -14,8 +14,12 @@ const app = express();
 // Middleware
 app.use(cors());
 app.use(express.json());
-
+app.use(express.urlencoded({ extended: true }));
 // Routes
+app.post('/test', (req, res) => {
+  console.log(req.body);
+  res.json({ message: 'Received!' });
+});
 
 
 
@@ -47,7 +51,7 @@ app.get('/users', async (req, res) => {
 app.post('/register', async (req, res) => {
     try {
       const { username, email, password } = req.body;
-
+      console.log(token)
       if(!password) {
         return res.status(400).json({ error: 'Password is required' })
       }
@@ -55,11 +59,11 @@ app.post('/register', async (req, res) => {
       const hashedPassword = await bcrypt.hash(password, 10);
   
       await pool.query(
-        'INSERT INTO Users (username, email, password) VALUES ($1, $2, $3)',
+        'INSERT INTO Users (username, email, password_hash) VALUES ($1, $2, $3)',
         [username, email, hashedPassword]
       );
-  
-      res.status(201).send('User registered successfully');
+      res.setHeader('Content-Type', 'application/json')
+      res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
       console.error(error.message);
       res.status(500).send('Server error');
@@ -72,28 +76,29 @@ app.post('/register', async (req, res) => {
 app.post('/login', async (req, res) => {
     try {
       const { username, password } = req.body;
-  
       const user = await pool.query(
         'SELECT * FROM Users WHERE username = $1',
         [username]
       );
-  
+  console.log(user.rows)
+  console.log(user.rows[0].password_hash)
+  console.log(user.rows[0].user_id)
       if (user.rows.length === 0) {
         return res.status(401).json('Invalid credentials');
       }
-  
-      const isPasswordValid = await bcrypt.compare(password, user.rows[0].password);
+      const isPasswordValid = await bcrypt.compare(password, user.rows[0].password_hash);
   
       if (!isPasswordValid) {
         return res.status(401).json('Invalid credentials');
       }
-  
-      const token = jwt.sign({ user: user.rows[0].id }, secretKey);
+      
+      const token = jwt.sign({ user: user.rows[0].user_id }, secretKey);      
       res.json({ token });
     } catch (error) {
       console.error(error.message);
       res.status(500).send('Server error');
     }
+    
   });
 
 

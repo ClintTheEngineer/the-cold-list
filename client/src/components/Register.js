@@ -15,15 +15,15 @@ function Register() {
         body: JSON.stringify({ username, email, password }),
       });
 
-      const data = await response.json();
-
+      //const data = await response.json();
+      
       if (response.status === 201) {
         // Registration was successful, you can redirect or show a success message
         console.log('Registration successful');
         // Redirect to another page or handle success
       } else {
         // Registration failed, handle the error
-        console.error('Registration failed:', data.error);
+        console.error('Registration failed:', response.error, response.status);
       }
     } catch (error) {
       console.error('Registration error:', error);

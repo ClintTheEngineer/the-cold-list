@@ -6,22 +6,23 @@ function Login({ setToken }) {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch('/login', {
+      let response = await fetch('/login', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ username, password })
       });
 
       const data = await response.json();
-
-      if (data.token) {
+       console.log(data)
+      if (response.status === 200) {
         setToken(data.token); // Set the token in the App component's state
-        console.log(data.token)
+      } else if(response.status === 400){
+        console.error('Login failed:', response.status)
       }
     } catch (error) {
-      console.error(error);
+      console.error('huh', error);
     }
   };
 
