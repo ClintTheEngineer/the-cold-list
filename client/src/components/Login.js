@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
+import { connect } from 'react-redux'; // Import connect
+import { setUserInfo } from '../store/actions'; // Import your action
 
 
-function Login({ setToken }) {
+function Login({ setToken, setUserInfo }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -25,6 +27,7 @@ function Login({ setToken }) {
         setToken(token); // Set the token in the App component's state
         localStorage.setItem('token', token);
         localStorage.setItem('username', username);
+        setUserInfo(token, username)
         navigate('/');
       } else if(response.status === 400){
         console.error('Login failed:', response.status)
@@ -57,9 +60,8 @@ function Login({ setToken }) {
   );
 }
 
+const mapDispatchToProps = {
+  setUserInfo: setUserInfo, // Map the setUserInfo action to props
+};
 
-
-
-
-
-export default Login;
+export default connect(null, mapDispatchToProps)(Login); // Connect to Redux
