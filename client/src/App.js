@@ -4,6 +4,7 @@ import PrivateRoute from './components/PrivateRoute'
 import TodoForm from './components/TodoForm';
 import Login from './components/Login'; 
 import Register from './components/Register';
+import { Home } from './components/Home';
 
 
 function App() {
@@ -11,12 +12,13 @@ function App() {
 
   return (
     <div className="App">
+    <Home />
     <Router>
-      <Routes>
-      <Route path="*" element={<PrivateRoute />} component={TodoForm} isAuthenticated={token !== ''} />
-      <Route path="/login" exact element={<Login setToken={setToken} />} />
-      <Route path="/register" element={<Register />} />
-      </Routes>
+    <Routes>
+    <Route path="*" element={<PrivateRoute />} component={TodoForm} isAuthenticated={token !== ''} />
+    <Route path="/login" exact element={<Login setToken={setToken} />} />
+    <Route path="/register" element={<Register />} />
+    </Routes>
     </Router>
     </div>
   );

@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router';
+
 
 function Login({ setToken }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
-  const handleLogin = async () => {
+  const HandleLogin = async () => {
     try {
-      let response = await fetch('/login', {
+      const response = await fetch('/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -17,7 +20,12 @@ function Login({ setToken }) {
       const data = await response.json();
        console.log(data)
       if (response.status === 200) {
-        setToken(data.token); // Set the token in the App component's state
+        const token = data.token;
+        console.log(username)
+        setToken(token); // Set the token in the App component's state
+        localStorage.setItem('token', token);
+        localStorage.setItem('username', username);
+        navigate('/');
       } else if(response.status === 400){
         console.error('Login failed:', response.status)
       }
@@ -25,6 +33,8 @@ function Login({ setToken }) {
       console.error('huh', error);
     }
   };
+
+
 
   return (
     <div>
@@ -42,9 +52,14 @@ function Login({ setToken }) {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <button onClick={handleLogin}>Login</button>
+      <button onClick={HandleLogin}>Login</button>
     </div>
   );
 }
+
+
+
+
+
 
 export default Login;
