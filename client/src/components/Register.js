@@ -1,9 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Register() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+  
+
+useEffect((token = localStorage.getItem('token')) => {
+  console.log(token, username)
+ if(token){
+  navigate('/')
+ }
+ }, [navigate, username])
+
 
   const handleRegistration = async () => {
     try {
@@ -21,6 +32,7 @@ function Register() {
         // Registration was successful, you can redirect or show a success message
         console.log('Registration successful');
         // Redirect to another page or handle success
+        navigate('/login')
       } else {
         // Registration failed, handle the error
         console.error('Registration failed:', response.error, response.status);

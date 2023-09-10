@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { connect } from 'react-redux'; // Import connect
 import { setUserInfo } from '../store/actions'; // Import your action
@@ -8,6 +8,13 @@ function Login({ setToken, setUserInfo }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+   if(token){
+    navigate('/')
+   }
+   }, [navigate])
 
   const HandleLogin = async () => {
     try {
