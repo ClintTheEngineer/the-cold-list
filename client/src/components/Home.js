@@ -4,6 +4,7 @@ import { setUserInfo } from '../store/actions';
 import { useNavigate } from 'react-router';
 import LogoutButton from './LogoutButton';
 import TodoForm from './TodoForm';
+import TodoList from './TodoList';
 
 export const Home = ({ token, username }) => {
   // Remove these lines as you don't need to fetch token and username here
@@ -21,6 +22,7 @@ export const Home = ({ token, username }) => {
 
   // Conditionally render TodoForm if both token and username are available
   const renderTodoForm = token && username ? <TodoForm /> : null;
+  const renderTodoList = token && username ? <TodoList /> : null;
   return (
     <>
       <h1>Icy To Do List</h1>
@@ -28,6 +30,7 @@ export const Home = ({ token, username }) => {
         <p>Hello, {username.toUpperCase()}</p>
       </div>      
       {renderTodoForm} {/* Conditionally render TodoForm */}<br></br>
+      {renderTodoList}
       <LogoutButton />
     </>
   );
