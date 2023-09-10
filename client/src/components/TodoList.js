@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 function TodoList({ username }) {
   const [todos, setTodos] = useState([]);
-  const deleteBtn = <button>Delete</button>;
+  
 
  username = localStorage.getItem('username');
 
@@ -24,15 +24,31 @@ function TodoList({ username }) {
         console.error('There was a problem with the fetch operation:', error);
       });
   }, [username]);
-
   
+  const handleDeleteTodo = async (todoId) => {
+    try {
+      // Send a DELETE request to your server endpoint with the todoId
+      const response = await fetch(`/deleteTodo/${todoId}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      // After successful deletion, update the todos list
+      // updateTodos();
+    } catch (error) {
+      console.error('Error deleting todo:', error);
+    }
+  };
   
   return (
     <div>
       <h2>Todo List</h2>
       <ul>
         {todos.map((todo) => (
-          <li key={todo.id}>{todo.task_name}{deleteBtn}</li>
+          <li key={todo.id}>{todo.task_name}<button onClick={() => handleDeleteTodo(todo.id)}>Delete</button></li>
         ))}
       </ul>
     </div>
