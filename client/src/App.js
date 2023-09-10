@@ -16,7 +16,7 @@ function App() {
     <Routes>
     <Route path='/' exact element={<Home />} component={TodoForm} />
     <Route path="/register" element={<Register />} />
-    <Route path="*" element={<PrivateRoute />} component={TodoForm} isAuthenticated={token !== ''} />
+    <Route path="*" element={<PrivateRoute />} isAuthenticated={token !== ''} />
     <Route path="/login" exact element={<Login setToken={setToken} />} />    
     </Routes>
     </Router>

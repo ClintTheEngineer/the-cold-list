@@ -43,7 +43,42 @@ app.get('/users', async (req, res) => {
   }
 });
 
+//Fetch ToDo List
+app.get('/todos', async (req, res) => {
+  try {
+    const users = await pool.query('SELECT * FROM Tasks');
+    console.log(users.rows)
+    // Check that users.rows is a valid array of objects
+    if (Array.isArray(users.rows)) {
+      // Send the list of users as a JSON response
+      res.json(users.rows);
+    } else {
+      // Handle unexpected data structure
+      res.status(500).send('Unexpected data structure');
+    }
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Server error');
+  }
+});
 
+//Add ToDos
+app.post('/addtodos', async (req, res) => {
+  try {
+    const { task_name } = req.body;
+    const user = await pool.query(
+      'INSERT INTO Tasks (task_name) VALUES ($1)',
+      [task_name]
+    );
+    res.setHeader('Content-Type', 'application/json')
+      res.status(201).json({ message: 'Todo added' });
+  } catch(error) {
+  console.error(error.message);
+    res.status(500).send('Server error')
+  }
+    
+    
+});
 
 
 
