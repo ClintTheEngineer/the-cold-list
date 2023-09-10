@@ -8,19 +8,14 @@ export const Home = ({ token, username }) => {
     token = localStorage.getItem('token');
     username = localStorage.getItem('username');
     const navigate = useNavigate();
-    console.log(token)
     useEffect(() => {
         // Check if there's a saved token and username in localStorage    
         if (token && username) {
           // If found, set the user info in Redux
-          console.log(username)
         } else {
             navigate('/register')
         }
       }, [username, token, navigate]);
-    
-    console.log(token, username)
-
   return (
     <>
       <h1>Icy To Do List</h1>

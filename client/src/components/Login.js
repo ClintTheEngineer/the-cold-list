@@ -27,7 +27,6 @@ function Login({ setToken, setUserInfo }) {
       });
 
       const data = await response.json();
-       console.log(data)
       if (response.status === 200) {
         const token = data.token;
         console.log(username)
