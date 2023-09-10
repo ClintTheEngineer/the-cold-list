@@ -11,13 +11,13 @@ function App() {
   const [token, setToken] = useState('');
 
   return (
-    <div className="App">
-    <Home />
+    <div className="App">    
     <Router>
     <Routes>
-    <Route path="*" element={<PrivateRoute />} component={TodoForm} isAuthenticated={token !== ''} />
-    <Route path="/login" exact element={<Login setToken={setToken} />} />
+    <Route path='/' exact element={<Home />} />
     <Route path="/register" element={<Register />} />
+    <Route path="*" element={<PrivateRoute />} component={TodoForm} isAuthenticated={token !== ''} />
+    <Route path="/login" exact element={<Login setToken={setToken} />} />    
     </Routes>
     </Router>
     </div>

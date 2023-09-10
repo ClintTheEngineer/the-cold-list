@@ -51,11 +51,9 @@ app.get('/users', async (req, res) => {
 app.post('/register', async (req, res) => {
     try {
       const { username, email, password } = req.body;
-      console.log(token)
       if(!password) {
         return res.status(400).json({ error: 'Password is required' })
-      }
-  
+      }  
       const hashedPassword = await bcrypt.hash(password, 10);
   
       await pool.query(
