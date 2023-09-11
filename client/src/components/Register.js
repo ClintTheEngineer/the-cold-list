@@ -26,17 +26,22 @@ useEffect((token = localStorage.getItem('token')) => {
         body: JSON.stringify({ username, email, password }),
       });
 
-      //const data = await response.json();
+      
       
       if (response.status === 201) {
         // Registration was successful, you can redirect or show a success message
         console.log('Registration successful');
         // Redirect to another page or handle success
         navigate('/login')
-      } else {
+      } else if (response.status === 403){
+        return console.error('Username taken') 
         // Registration failed, handle the error
-        console.error('Registration failed:', response.error, response.status);
-      }
+        } else if (response.status === 406){
+          return console.error('Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.')
+         } else {
+          console.error('Registration failed:', response.status);
+        }
+      
     } catch (error) {
       console.error('Registration error:', error);
     }

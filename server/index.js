@@ -81,6 +81,29 @@ app.post('/addtodos', async (req, res) => {
   } 
 });
 
+//Edit Todos
+//Edit Todos
+app.put('/editTodos/:id', async (req, res) => {
+  try {
+    const taskId = parseInt(req.params.id);
+    const { task_name } = req.body;
+    
+    // Use a PostgreSQL query to update the task name
+    const query = 'UPDATE Todos SET task_name = $1 WHERE id = $2';
+    const result = await pool.query(query, [task_name, taskId]);
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: 'Task not found' });
+    }
+
+    res.json({ message: 'Task updated successfully' });
+  } catch (error) {
+    console.error('Error updating task:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
 //Delete
 app.delete('/deleteTodo/:id', async (req, res) => {
   const todoId = parseInt(req.params.id);
@@ -109,6 +132,25 @@ app.post('/register', async (req, res) => {
       if(!password) {
         return res.status(400).json({ error: 'Password is required' })
       }  
+
+const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!passwordRegex.test(password)) {
+      return res.status(406).json({
+        error: 'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.'
+      });
+    }
+      
+      // Check if the username already exists in the database
+    const existingUser = await pool.query(
+      'SELECT * FROM Users WHERE username = $1',
+      [username]
+    );
+    
+    if (existingUser.rows.length > 0) {
+      res.setHeader('Content-Type', 'application/json')
+      return res.status(403).json({ error: 'Username taken' });
+    }
+
       const hashedPassword = await bcrypt.hash(password, 10);
   
       await pool.query(
