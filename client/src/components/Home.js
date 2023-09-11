@@ -8,42 +8,53 @@ import TodoList from './TodoList';
 
 export const Home = ({ token, username }) => {
     const [refresh, setRefresh] = useState(false);
-    const refreshTodoList = () => {
-        setRefresh(!refresh)
-    }
-  
-  token = localStorage.getItem('token');
+  token = localStorage.getItem('token')
   username = localStorage.getItem('username');
-  
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  useEffect(() => {
-    // Check if there's a saved token and username in localStorage    
-    if (!token || !username) {
-      navigate('/register');
+    useEffect(() => {
+        // Check if there's a saved token in localStorage
+        const storedToken = localStorage.getItem('token');
+        
+        if (!storedToken) {
+            // If there's no token, redirect to the login page
+            navigate('/login');
+        } else {
+            // If token exists, retrieve the username
+            const storedUsername = localStorage.getItem('username');
+            
+            if (!storedUsername) {
+                // If there's no username, redirect to the login page
+                navigate('/login');
+            }
+        }
+    }, [navigate]);
+
+    const refreshTodoList = () => {
+        setRefresh(!refresh);
     }
-  }, [username, token, navigate]);
 
-  return (
-    <>
-      <h1>Icy To Do List</h1>
-      <div className="user-info">
-        <p>Hello, {username.toUpperCase()}</p>
-      </div>      
-      <TodoForm refreshTodoList={refreshTodoList}/>
-      <TodoList refresh={refresh} />
-      <LogoutButton />
-    </>
-  );
+    return (
+        <>
+            <h1>Icy To Do List</h1>
+            <div className="user-info">
+                <p>Hello, {username ? username.toUpperCase() : ''}</p>
+            </div>
+            <TodoForm refreshTodoList={refreshTodoList} />
+            <TodoList refresh={refresh} />
+            <LogoutButton />
+        </>
+    );
 };
 
 const mapStateToProps = (state) => ({
-  token: state.user.token,
-  username: state.user.username,
+    token: state.user.token,
+    username: state.user.username,
 });
 
 const mapDispatchToProps = {
-  setUserInfo: setUserInfo,
+    setUserInfo: setUserInfo,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
+
