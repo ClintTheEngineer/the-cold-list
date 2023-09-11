@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { setUserInfo } from '../store/actions';
 import { useNavigate } from 'react-router';
@@ -7,7 +7,11 @@ import TodoForm from './TodoForm';
 import TodoList from './TodoList';
 
 export const Home = ({ token, username }) => {
-  // Remove these lines as you don't need to fetch token and username here
+    const [refresh, setRefresh] = useState(false);
+    const refreshTodoList = () => {
+        setRefresh(!refresh)
+    }
+  
   token = localStorage.getItem('token');
   username = localStorage.getItem('username');
   
@@ -20,17 +24,14 @@ export const Home = ({ token, username }) => {
     }
   }, [username, token, navigate]);
 
-  // Conditionally render TodoForm if both token and username are available
-  const renderTodoForm = token && username ? <TodoForm /> : null;
-  const renderTodoList = token && username ? <TodoList /> : null;
   return (
     <>
       <h1>Icy To Do List</h1>
       <div className="user-info">
         <p>Hello, {username.toUpperCase()}</p>
       </div>      
-      {renderTodoForm} {/* Conditionally render TodoForm */}<br></br>
-      {renderTodoList}
+      <TodoForm refreshTodoList={refreshTodoList}/>
+      <TodoList refresh={refresh} />
       <LogoutButton />
     </>
   );

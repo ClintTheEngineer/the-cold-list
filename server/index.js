@@ -1,4 +1,5 @@
 const express = require('express');
+
 const cors = require('cors');
 const pool = require('./db');
 
@@ -10,6 +11,8 @@ const secretKey = crypto.randomBytes(32).toString('hex');
 
 
 const app = express();
+
+
 
 // Middleware
 app.use(cors());
@@ -76,7 +79,6 @@ app.post('/addtodos', async (req, res) => {
   console.error(error.message);
     res.status(500).send('Server error')
   } 
-    
 });
 
 //Delete

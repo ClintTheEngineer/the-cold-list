@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 
-function TodoForm({ username }) {
+function TodoForm({ username, refreshTodoList }) {
   const [newTodo, setNewTodo] = useState('');
   
   username = localStorage.getItem('username');
-  
 
   const handleTodoChange = (e) => {
     setNewTodo(e.target.value);
@@ -34,7 +33,7 @@ function TodoForm({ username }) {
         
         // After successful addition, you can clear the input field and update the todos list
         setNewTodo('');
-        
+        refreshTodoList();
         // Optionally, you can trigger a refresh of the todo list in the parent component
         // by calling a function passed as a prop.
       } catch (error) {
@@ -42,8 +41,6 @@ function TodoForm({ username }) {
       }
     }
   };
-
-  
   
 
   return (
