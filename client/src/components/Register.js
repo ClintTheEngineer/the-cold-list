@@ -5,18 +5,34 @@ function Register() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isEmailValid, setIsEmailValid] = useState(true); // Track email validity
   const navigate = useNavigate();
-  
 
-useEffect((token = localStorage.getItem('token')) => {
-  console.log(token, username)
- if(token){
-  navigate('/')
- }
- }, [navigate, username])
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      navigate('/');
+    }
+  }, [navigate]);
 
+  const validateEmail = (email) => {
+    // Regular expression for email validation
+    const emailRegex = /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
+    return emailRegex.test(email);
+  };
+
+  const handleEmailChange = (e) => {
+    const newEmail = e.target.value;
+    setEmail(newEmail);
+    setIsEmailValid(validateEmail(newEmail) && newEmail.trim() !== ''); // Validate email format and check for non-blank
+  };
 
   const handleRegistration = async () => {
+    if (!isEmailValid) {
+      console.error('Invalid email format or blank email');
+      return; // Don't submit if email is invalid or blank
+    }
+
     try {
       const response = await fetch('/register', {
         method: 'POST',
@@ -26,22 +42,21 @@ useEffect((token = localStorage.getItem('token')) => {
         body: JSON.stringify({ username, email, password }),
       });
 
-      
-      
       if (response.status === 201) {
         // Registration was successful, you can redirect or show a success message
         console.log('Registration successful');
         // Redirect to another page or handle success
-        navigate('/login')
-      } else if (response.status === 403){
-        return console.error('Username taken') 
+        navigate('/login');
+      } else if (response.status === 403) {
+        console.error('Username taken');
         // Registration failed, handle the error
-        } else if (response.status === 406){
-          return console.error('Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.')
-         } else {
-          console.error('Registration failed:', response.status);
-        }
-      
+      } else if (response.status === 406) {
+        console.error(
+          'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.'
+        );
+      } else {
+        console.error('Registration failed:', response.status);
+      }
     } catch (error) {
       console.error('Registration error:', error);
     }
@@ -49,6 +64,7 @@ useEffect((token = localStorage.getItem('token')) => {
 
   return (
     <div>
+      <button onClick={() => window.location.href = '/login'}>Login</button>
       <h2>Registration</h2>
       <input
         type="text"
@@ -60,17 +76,22 @@ useEffect((token = localStorage.getItem('token')) => {
         type="email"
         placeholder="Email"
         value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={handleEmailChange}
+        style={{ borderColor: isEmailValid ? 'initial' : 'red' }} // Change border color if email is invalid or blank
       />
+      {!isEmailValid && <p style={{ color: 'red' }}>Invalid email format or blank email</p>} {/* Display error message */}
       <input
         type="password"
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <button onClick={handleRegistration}>Register</button>
+      <button onClick={handleRegistration} disabled={!isEmailValid}>
+        Register
+      </button>
     </div>
   );
 }
 
 export default Register;
+

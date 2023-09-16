@@ -48,6 +48,7 @@ function Login({ setToken, setUserInfo }) {
   return (
     <div>
       <button onClick={() => window.location.href = '/'}>Home</button>
+      <button onClick={() => window.location.href = '/register'}>Register</button>
       <h2>Login</h2>
       <input
         type="text"
@@ -62,6 +63,7 @@ function Login({ setToken, setUserInfo }) {
         onChange={(e) => setPassword(e.target.value)}
       />
       <button onClick={HandleLogin}>Login</button>
+      <a href='/forgot-password'>Forgot Password?</a>
     </div>
   );
 }

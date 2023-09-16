@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import PrivateRoute from './components/PrivateRoute'
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import TodoForm from './components/TodoForm';
 import Login from './components/Login'; 
 import Register from './components/Register';
 import { Home } from './components/Home';
+import ForgotPassword from './components/ForgotPassword';
+import ResetPassword from './components/ResetPassword';
 
 
 function App() {
@@ -16,8 +17,10 @@ function App() {
     <Routes>
     <Route path='/' exact element={<Home />} component={TodoForm} />
     <Route path="/register" element={<Register />} />
-    <Route path="*" element={<PrivateRoute />} isAuthenticated={token !== ''} />
+    <Route path="*" element={<Navigate to="/" />} />
     <Route path="/login" exact element={<Login setToken={setToken} />} />    
+    <Route path="/forgot-password" element={<ForgotPassword />} />
+    <Route path="/validate-password/:token" component={token} element={<ResetPassword />} />
     </Routes>
     </Router>
     </div>
