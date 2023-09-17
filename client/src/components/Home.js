@@ -52,6 +52,7 @@ const mapStateToProps = (state) => ({
     username: state.user.username,
 });
 
+
 const mapDispatchToProps = {
     setUserInfo: setUserInfo,
 };

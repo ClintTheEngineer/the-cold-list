@@ -72,14 +72,20 @@ function Register() {
         value={username}
         onChange={(e) => setUsername(e.target.value)}
       />
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={handleEmailChange}
-        style={{ borderColor: isEmailValid ? 'initial' : 'red' }} // Change border color if email is invalid or blank
-      />
-      {!isEmailValid && <p style={{ color: 'red' }}>Invalid email format or blank email</p>} {/* Display error message */}
+      <div style={{ maxWidth: '300px' }}> {/* Set a maximum width for the div */}
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={handleEmailChange}
+          style={{ width: '100%', borderColor: isEmailValid ? 'initial' : 'red' }}
+        />
+        {!isEmailValid && (
+          <p style={{ color: 'red', marginTop: '4px', marginBottom: '0' }}>
+            Invalid email format or blank email
+          </p>
+        )}
+      </div>
       <input
         type="password"
         placeholder="Password"
