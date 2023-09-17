@@ -42,6 +42,11 @@ function TodoForm({ username, refreshTodoList }) {
     }
   };
   
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleAddTodo();
+    }
+  };
 
   return (
     <div>
@@ -51,6 +56,7 @@ function TodoForm({ username, refreshTodoList }) {
         placeholder="Enter a new todo"
         value={newTodo}
         onChange={handleTodoChange}
+        onKeyUp={handleKeyPress}
       />
       <button onClick={handleAddTodo}>Add Todo</button>
     </div>
