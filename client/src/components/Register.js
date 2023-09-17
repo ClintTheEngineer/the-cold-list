@@ -6,6 +6,7 @@ function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isEmailValid, setIsEmailValid] = useState(true); // Track email validity
+  const [registrationStatus, setRegistrationStatus] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -43,10 +44,11 @@ function Register() {
       });
 
       if (response.status === 201) {
-        // Registration was successful, you can redirect or show a success message
-        console.log('Registration successful');
         // Redirect to another page or handle success
-        navigate('/login');
+        setRegistrationStatus('Registration successful, navigating to Login page')
+        setTimeout(() => {
+          navigate('/login');
+        }, 3000);
       } else if (response.status === 403) {
         console.error('Username taken');
         // Registration failed, handle the error
@@ -95,6 +97,7 @@ function Register() {
       <button onClick={handleRegistration} disabled={!isEmailValid}>
         Register
       </button>
+      <p>{registrationStatus}</p>
     </div>
   );
 }

@@ -22,8 +22,10 @@ function ForgotPassword() {
       const data = await response.json();
 
       if (response.status === 200) {
-        setMessage(data.message);
-        navigate("/")
+        setMessage(`${data.message}, Re-directing to home page`);
+        setTimeout(() => {
+          navigate('/login');
+        }, 3000);
       } else {
         setMessage('Password reset request failed.');
       }
@@ -44,7 +46,7 @@ function ForgotPassword() {
         onChange={(e) => setEmail(e.target.value)}
       />
       <button onClick={handleResetPassword}>Reset Password</button>
-      {message && <p>{message}</p>}
+      {<p>{message}</p>}
     </div>
   );
 }
