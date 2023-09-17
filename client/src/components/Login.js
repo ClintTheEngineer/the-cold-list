@@ -7,6 +7,7 @@ import { setUserInfo } from '../store/actions'; // Import your action
 function Login({ setToken, setUserInfo }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('')
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,17 +30,19 @@ function Login({ setToken, setUserInfo }) {
       const data = await response.json();
       if (response.status === 200) {
         const token = data.token;
-        console.log(username)
         setToken(token); // Set the token in the App component's state
         localStorage.setItem('token', token);
         localStorage.setItem('username', username);
         setUserInfo(token, username)
         navigate('/');
       } else if(response.status === 400){
+        setErrorMessage('Login failed')
         console.error('Login failed:', response.status)
+      } else if(response.status === 401){
+        setErrorMessage('Incorrect username/password.')
       }
     } catch (error) {
-      console.error('huh', error);
+      console.error(error);
     }
   };
 
@@ -64,6 +67,7 @@ function Login({ setToken, setUserInfo }) {
       />
       <button onClick={HandleLogin}>Login</button>
       <a href='/forgot-password'>Forgot Password?</a>
+      <p>{errorMessage}</p>
     </div>
   );
 }
