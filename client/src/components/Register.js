@@ -8,6 +8,7 @@ function Register() {
   const [isEmailValid, setIsEmailValid] = useState(true); // Track email validity
   const [registrationStatus, setRegistrationStatus] = useState('');
   const navigate = useNavigate();
+  
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -42,22 +43,22 @@ function Register() {
         },
         body: JSON.stringify({ username, email, password }),
       });
-
+      const data = await response.json();
       if (response.status === 201) {
         // Redirect to another page or handle success
         setRegistrationStatus('Registration successful, navigating to Login page')
         setTimeout(() => {
           navigate('/login');
         }, 3000);
-      } else if (response.status === 403) {
-        console.error('Username taken');
+      } else if (response.status === 403 || response.status === 405) {
+        setRegistrationStatus(data.error);
         // Registration failed, handle the error
       } else if (response.status === 406) {
-        console.error(
+        setRegistrationStatus(
           'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.'
         );
       } else {
-        console.error('Registration failed:', response.status);
+        console.error('Registration failed:', JSON.parse(data));
       }
     } catch (error) {
       console.error('Registration error:', error);
