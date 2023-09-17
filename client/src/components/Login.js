@@ -46,6 +46,12 @@ function Login({ setToken, setUserInfo }) {
     }
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      HandleLogin()
+    }
+  };
+
 
 
   return (
@@ -64,8 +70,9 @@ function Login({ setToken, setUserInfo }) {
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        onKeyUp={handleKeyPress}
       />
-      <button onClick={HandleLogin}>Login</button>
+      <button onClick={HandleLogin} onKeyUp={handleKeyPress}>Login</button>
       <a href='/forgot-password'>Forgot Password?</a>
       <p>{errorMessage}</p>
     </div>
