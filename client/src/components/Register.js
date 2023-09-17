@@ -54,9 +54,7 @@ function Register() {
         setRegistrationStatus(data.error);
         // Registration failed, handle the error
       } else if (response.status === 406) {
-        setRegistrationStatus(
-          'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.'
-        );
+        setRegistrationStatus(data.error);
       } else {
         console.error('Registration failed:', JSON.parse(data));
       }
