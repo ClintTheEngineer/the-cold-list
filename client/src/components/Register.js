@@ -8,7 +8,6 @@ function Register() {
   const [isEmailValid, setIsEmailValid] = useState(true); // Track email validity
   const [registrationStatus, setRegistrationStatus] = useState('');
   const navigate = useNavigate();
-  
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -25,7 +24,7 @@ function Register() {
 
   const handleEmailChange = (e) => {
     const newEmail = e.target.value;
-    setEmail(newEmail);
+    setEmail(newEmail.toLowerCase());
     setIsEmailValid(validateEmail(newEmail) && newEmail.trim() !== ''); // Validate email format and check for non-blank
   };
 
@@ -41,7 +40,7 @@ function Register() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, email, password }),
+        body: JSON.stringify({ username: username.toLowerCase(), email, password }),
       });
       const data = await response.json();
       if (response.status === 201) {
@@ -70,7 +69,7 @@ function Register() {
       <input
         type="text"
         placeholder="Username"
-        value={username}
+        value={username.toLowerCase()}
         onChange={(e) => setUsername(e.target.value)}
       />
       <div style={{ maxWidth: '300px' }}> {/* Set a maximum width for the div */}

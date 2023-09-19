@@ -6,11 +6,24 @@ function ResetPassword() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState('');
+  const [token, setToken] = useState('');
+ 
+  useEffect(() => {
+    // Extract the token from the URL query parameters
+    const queryParams = new URLSearchParams(window.location.search);
+    const tokenFromQuery = queryParams.get('token');
 
- const { token } = useParams(); 
+    if (tokenFromQuery) {
+      setToken(tokenFromQuery);
+    }
+  }, []);
+ 
+ 
+ 
+ //const { token } = useParams(); 
  const navigate = useNavigate();
 //const { token } = match.params;
-
+console.log(token)
  //const token = localStorage.getItem('token')
  console.log(token)
   useEffect(() => {

@@ -380,7 +380,7 @@ app.get('/validate-password/:token', async (req, res) => {
 
     // Token is valid
     res.status(200).json({ message: 'Token is valid' });
-    res.json({ token})
+    res.json({ token })
   } catch (error) {
     console.error(error.message);
     res.status(500).send('Server error');

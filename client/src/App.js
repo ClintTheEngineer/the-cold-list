@@ -17,10 +17,10 @@ function App() {
     <Routes>
     <Route path='/' exact element={<Home />} component={TodoForm} />
     <Route path="/register" element={<Register />} />
-    <Route path="*" element={<Navigate to="/" />} />
+    <Route path="*" element={<Navigate to="/" />} /> 
     <Route path="/login" exact element={<Login setToken={setToken} />} />    
     <Route path="/forgot-password" element={<ForgotPassword />} />
-    <Route path="/validate-password/:token" component={token} element={<ResetPassword />} />
+    <Route path="/validate-password" component={token} element={<ResetPassword />} />
     </Routes>
     </Router>
     </div>
