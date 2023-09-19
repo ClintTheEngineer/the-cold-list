@@ -60,7 +60,7 @@ function Login({ setToken, setUserInfo }) {
     <div>
       <button id='home-btn' onClick={() => window.location.href = '/'}>Home</button>
       <button id="sign-up" onClick={() => window.location.href = '/register'} title='Create an account'>Sign Up</button>
-      <h2 id='login-hdr'>{appName}</h2>
+      <h2 id='login-hdr' className='app-name'>{appName}</h2>
       <input
         type="text"
         placeholder="Username"

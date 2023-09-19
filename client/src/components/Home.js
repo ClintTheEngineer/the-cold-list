@@ -40,7 +40,7 @@ export const Home = ({ token, username }) => {
 
     return (
         <>
-            <h1>{appName}</h1>
+            <h1 className='app-name'>{appName}</h1>
             <div className="user-info">
                 <p>Hello, {username ? username.toUpperCase() : ''}</p>
             </div>
