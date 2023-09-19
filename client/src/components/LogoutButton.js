@@ -19,7 +19,7 @@ function LogoutButton() {
   };
 
   return (
-    <button onClick={handleLogout}>Log Out</button>
+    <button id='logout-btn' onClick={handleLogout}>Log Out</button>
   );
 }
 

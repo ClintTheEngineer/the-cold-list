@@ -58,7 +58,7 @@ function TodoForm({ username, refreshTodoList }) {
         onChange={handleTodoChange}
         onKeyUp={handleKeyPress}
       />
-      <button onClick={handleAddTodo}>Add Todo</button>
+      <button id='addTodo-btn' onClick={handleAddTodo}>Add Todo</button>
     </div>
   );
 }

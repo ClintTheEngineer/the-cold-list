@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { connect } from 'react-redux'; // Import connect
 import { setUserInfo } from '../store/actions'; // Import your action
+import '../../src/App.css';
 
 
 function Login({ setToken, setUserInfo }) {
@@ -9,6 +10,7 @@ function Login({ setToken, setUserInfo }) {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('')
   const navigate = useNavigate();
+  const appName = 'The Cold List';
 
   useEffect(() => {
     const token = localStorage.getItem('token')
@@ -56,9 +58,9 @@ function Login({ setToken, setUserInfo }) {
 
   return (
     <div>
-      <button onClick={() => window.location.href = '/'}>Home</button>
-      <button onClick={() => window.location.href = '/register'}>Register</button>
-      <h2>Login</h2>
+      <button id='home-btn' onClick={() => window.location.href = '/'}>Home</button>
+      <button id="sign-up" onClick={() => window.location.href = '/register'} title='Create an account'>Sign Up</button>
+      <h2 id='login-hdr'>{appName}</h2>
       <input
         type="text"
         placeholder="Username"
@@ -72,8 +74,8 @@ function Login({ setToken, setUserInfo }) {
         onChange={(e) => setPassword(e.target.value)}
         onKeyUp={handleKeyPress}
       />
-      <button onClick={HandleLogin} onKeyUp={handleKeyPress}>Login</button>
-      <a href='/forgot-password'>Forgot Password?</a>
+      <button id='login-btn' onClick={HandleLogin} onKeyUp={handleKeyPress}>Login</button>
+      <a id='reset-pswd' href='/forgot-password' title='Click here to reset your password'>Forgot Password?</a>
       <p>{errorMessage}</p>
     </div>
   );

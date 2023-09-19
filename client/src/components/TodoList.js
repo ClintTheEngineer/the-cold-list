@@ -114,7 +114,7 @@ const handleDeleteTodo = async (todoId) => {
       <h2>Todo List</h2>
       <ul>
         {todos.map((todo) => (
-          <li key={todo.id}>
+          <li key={todo.id} className='list-map'>
             {editMode && editTodoId === todo.id ? (
               <>
                 <input
@@ -127,9 +127,9 @@ const handleDeleteTodo = async (todoId) => {
               </>
             ) : (
               <>
-                <button onClick={() => handleEditTodo(todo.id, todo.task_name)}>Edit</button>
+                <button className='edit-btn' onClick={() => handleEditTodo(todo.id, todo.task_name)}>Edit</button>
                 {todo.task_name}
-                <button onClick={() => handleDeleteTodo(todo.id)}>Delete</button>
+                <button className='delete-btn' onClick={() => handleDeleteTodo(todo.id)}>Delete</button>
               </>
             )}
           </li>

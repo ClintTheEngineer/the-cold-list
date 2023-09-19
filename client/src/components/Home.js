@@ -6,11 +6,14 @@ import LogoutButton from './LogoutButton';
 import TodoForm from './TodoForm';
 import TodoList from './TodoList';
 
+
 export const Home = ({ token, username }) => {
-    const [refresh, setRefresh] = useState(false);
+  const [refresh, setRefresh] = useState(false);
   token = localStorage.getItem('token')
   username = localStorage.getItem('username');
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  const appName = 'The Cold List';
+    
 
     useEffect(() => {
         // Check if there's a saved token in localStorage
@@ -33,10 +36,11 @@ export const Home = ({ token, username }) => {
     const refreshTodoList = () => {
         setRefresh(!refresh);
     }
+    
 
     return (
         <>
-            <h1>Icy To Do List</h1>
+            <h1>{appName}</h1>
             <div className="user-info">
                 <p>Hello, {username ? username.toUpperCase() : ''}</p>
             </div>
