@@ -2,42 +2,6 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-
 .app-name {
   text-align: center;
   color: red;
@@ -61,11 +25,16 @@
   cursor: pointer;
 }
 
-#sign-up {
+#sign-up-btn, #register-btn {
   background-color: orange;
   width: 80px;
   cursor: pointer;
 }
+
+#register, #forgot-hdr {
+  color: red;
+}
+
 
 li {
   list-style-type: none;
@@ -90,3 +59,22 @@ li {
   font-weight: 600;
 }
 
+#todo-list {
+  padding-top: 10%;
+}
+
+#reset-btn {
+  background-color: orange;
+  color: white;
+  border-color: red;
+  cursor: pointer;
+}
+
+#reset-btn:hover {
+  background-color: rgba(255, 166, 0, 0.426);
+  color: green;
+}
+
+#email-txt {
+  font-weight: 666;
+}

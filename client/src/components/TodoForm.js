@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
-function TodoForm({ username, refreshTodoList }) {
+
+const TodoForm = ({ username, refreshTodoList }) => {
   const [newTodo, setNewTodo] = useState('');
   
   username = localStorage.getItem('username');
@@ -12,13 +13,10 @@ function TodoForm({ username, refreshTodoList }) {
   const handleAddTodo = async () => {
     if (newTodo.trim() !== '') {
       try {
-        // Create a data object to send in the request body
         const data = {
           username: username,
           task_name: newTodo.trim(),
         };
-  
-        // Send a POST request to your server endpoint
         const response = await fetch('/addtodos', {
           method: 'POST',
           headers: {
@@ -30,12 +28,8 @@ function TodoForm({ username, refreshTodoList }) {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-        
-        // After successful addition, you can clear the input field and update the todos list
         setNewTodo('');
         refreshTodoList();
-        // Optionally, you can trigger a refresh of the todo list in the parent component
-        // by calling a function passed as a prop.
       } catch (error) {
         console.error('Error adding todo:', error);
       }

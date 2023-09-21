@@ -1,5 +1,3 @@
-// PasswordReset.js
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 
@@ -24,7 +22,7 @@ function ForgotPassword() {
       if (response.status === 200) {
         setMessage(`${data.message}, Re-directing to home page`);
         setTimeout(() => {
-          navigate('/login');
+        navigate('/login');
         }, 3000);
       } else {
         setMessage('Password reset request failed.');
@@ -37,15 +35,16 @@ function ForgotPassword() {
 
   return (
     <div>
-      <h2>Forgot Password</h2>
-      <p>Enter your email address to reset your password.</p>
+      <button id='home-btn' onClick={() => window.location.href = '/'}>Home</button>
+      <h2 id='forgot-hdr'>Forgot Password</h2>
+      <p id='email-txt'>Enter your email address to reset your password.</p>
       <input
         type="email"
         placeholder="Email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
-      <button onClick={handleResetPassword}>Reset Password</button>
+      <button id='reset-btn' onClick={handleResetPassword}>Reset Password</button>
       {<p>{message}</p>}
     </div>
   );

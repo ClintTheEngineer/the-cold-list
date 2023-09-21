@@ -5,7 +5,7 @@ function Register() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isEmailValid, setIsEmailValid] = useState(true); // Track email validity
+  const [isEmailValid, setIsEmailValid] = useState(true); 
   const [registrationStatus, setRegistrationStatus] = useState('');
   const navigate = useNavigate();
 
@@ -17,7 +17,6 @@ function Register() {
   }, [navigate]);
 
   const validateEmail = (email) => {
-    // Regular expression for email validation
     const emailRegex = /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
     return emailRegex.test(email);
   };
@@ -25,13 +24,13 @@ function Register() {
   const handleEmailChange = (e) => {
     const newEmail = e.target.value;
     setEmail(newEmail.toLowerCase());
-    setIsEmailValid(validateEmail(newEmail) && newEmail.trim() !== ''); // Validate email format and check for non-blank
+    setIsEmailValid(validateEmail(newEmail) && newEmail.trim() !== ''); 
   };
 
   const handleRegistration = async () => {
     if (!isEmailValid) {
       console.error('Invalid email format or blank email');
-      return; // Don't submit if email is invalid or blank
+      return;
     }
 
     try {
@@ -44,14 +43,12 @@ function Register() {
       });
       const data = await response.json();
       if (response.status === 201) {
-        // Redirect to another page or handle success
         setRegistrationStatus('Registration successful, navigating to Login page')
         setTimeout(() => {
           navigate('/login');
         }, 3000);
       } else if (response.status === 403 || response.status === 405) {
         setRegistrationStatus(data.error);
-        // Registration failed, handle the error
       } else if (response.status === 406) {
         setRegistrationStatus(data.error);
       } else {
@@ -64,21 +61,22 @@ function Register() {
 
   return (
     <div>
-      <button onClick={() => window.location.href = '/login'}>Login</button>
-      <h2>Registration</h2>
+      <button id='home-btn' onClick={() => window.location.href = '/login'}>Home</button>
+      <h2 id='register'>Registration</h2>
       <input
         type="text"
         placeholder="Username"
         value={username.toLowerCase()}
         onChange={(e) => setUsername(e.target.value)}
       />
-      <div style={{ maxWidth: '300px' }}> {/* Set a maximum width for the div */}
+      <div id='sign-up-form'> 
         <input
+          id='email'
           type="email"
           placeholder="Email"
           value={email}
           onChange={handleEmailChange}
-          style={{ width: '100%', borderColor: isEmailValid ? 'initial' : 'red' }}
+          style={{ borderColor: isEmailValid ? 'initial' : 'red' }}
         />
         {!isEmailValid && (
           <p style={{ color: 'red', marginTop: '4px', marginBottom: '0' }}>
@@ -87,12 +85,13 @@ function Register() {
         )}
       </div>
       <input
+        id='pswd-register'
         type="password"
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-      />
-      <button onClick={handleRegistration} disabled={!isEmailValid}>
+      /><br />
+      <button id='register-btn' onClick={handleRegistration} disabled={!isEmailValid}>
         Register
       </button>
       <p>{registrationStatus}</p>
@@ -101,4 +100,3 @@ function Register() {
 }
 
 export default Register;
-

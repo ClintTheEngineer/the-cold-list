@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-function TodoList({ username, refresh }) {
+const TodoList = ({ username, refresh }) => {
   const [todos, setTodos] = useState([]);
   const [editMode, setEditMode] = useState(false);
   const [editedTaskName, setEditedTaskName] = useState('');
@@ -10,7 +10,6 @@ function TodoList({ username, refresh }) {
 
  useEffect(() => {
   if (refresh) {
-    // Fetch todos when the 'refresh' prop changes
     fetch('/todos') 
       .then((response) => {
         if (!response.ok) {
@@ -19,7 +18,6 @@ function TodoList({ username, refresh }) {
         return response.json();
       })
       .then((data) => {
-        // Filter todos based on the logged-in user's username
         const filteredTodos = data.filter((todo) => todo.username === username);
         setTodos(filteredTodos);
       })
@@ -59,9 +57,7 @@ const handleDeleteTodo = async (todoId) => {
      setTodos(todos.filter((todo) => todo.id !== todoId))
       if (!response.ok) {
         throw new Error('Network response was not ok');
-      }
-      // After successful deletion, update the todos list
-      
+      }      
     } catch (error) {
       console.error('Error deleting todo:', error);
     }
@@ -93,22 +89,17 @@ const handleDeleteTodo = async (todoId) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-
-      // Update the todos list after successful edit
       const updatedTodos = [...todos];
       const editedTodoIndex = updatedTodos.findIndex((todo) => todo.id === editTodoId);
       if (editedTodoIndex !== -1) {
         updatedTodos[editedTodoIndex].task_name = editedTaskName;
         setTodos(updatedTodos);
       }
-
-      // Reset edit mode
       handleCancelEdit();
     } catch (error) {
       console.error('Error editing todo:', error);
     }
-  };
-  
+  };  
   return (
     <div>
       <h2>Todo List</h2>

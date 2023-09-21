@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
-import { connect } from 'react-redux'; // Import connect
-import { setUserInfo } from '../store/actions'; // Import your action
+import { connect } from 'react-redux'; 
+import { setUserInfo } from '../store/actions'; 
+import icecube from '../assets/cubemelt-melt.gif';
 import '../../src/App.css';
 
 
-function Login({ setToken, setUserInfo }) {
+const Login = ({ setToken, setUserInfo }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('')
@@ -32,7 +33,7 @@ function Login({ setToken, setUserInfo }) {
       const data = await response.json();
       if (response.status === 200) {
         const token = data.token;
-        setToken(token); // Set the token in the App component's state
+        setToken(token);
         localStorage.setItem('token', token);
         localStorage.setItem('username', username);
         setUserInfo(token, username)
@@ -59,7 +60,7 @@ function Login({ setToken, setUserInfo }) {
   return (
     <div>
       <button id='home-btn' onClick={() => window.location.href = '/'}>Home</button>
-      <button id="sign-up" onClick={() => window.location.href = '/register'} title='Create an account'>Sign Up</button>
+      <button id="sign-up-btn" onClick={() => window.location.href = '/register'} title='Create an account'>Sign Up</button>
       <h2 id='login-hdr' className='app-name'>{appName}</h2>
       <input
         type="text"
@@ -77,12 +78,13 @@ function Login({ setToken, setUserInfo }) {
       <button id='login-btn' onClick={HandleLogin} onKeyUp={handleKeyPress}>Login</button>
       <a id='reset-pswd' href='/forgot-password' title='Click here to reset your password'>Forgot Password?</a>
       <p>{errorMessage}</p>
+      <img src={icecube} alt='Melting ice cube' />
     </div>
   );
 }
 
 const mapDispatchToProps = {
-  setUserInfo: setUserInfo, // Map the setUserInfo action to props
+  setUserInfo: setUserInfo,
 };
 
-export default connect(null, mapDispatchToProps)(Login); // Connect to Redux
+export default connect(null, mapDispatchToProps)(Login);

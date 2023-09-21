@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router';
 import LogoutButton from './LogoutButton';
 import TodoForm from './TodoForm';
 import TodoList from './TodoList';
+import list from '../assets/list.gif';
 
 
 export const Home = ({ token, username }) => {
@@ -16,18 +17,13 @@ export const Home = ({ token, username }) => {
     
 
     useEffect(() => {
-        // Check if there's a saved token in localStorage
-        const storedToken = localStorage.getItem('token');
-        
+        const storedToken = localStorage.getItem('token');        
         if (!storedToken) {
-            // If there's no token, redirect to the login page
             navigate('/login');
         } else {
-            // If token exists, retrieve the username
             const storedUsername = localStorage.getItem('username');
             
             if (!storedUsername) {
-                // If there's no username, redirect to the login page
                 navigate('/login');
             }
         }
@@ -35,8 +31,7 @@ export const Home = ({ token, username }) => {
 
     const refreshTodoList = () => {
         setRefresh(!refresh);
-    }
-    
+    }    
 
     return (
         <>
@@ -46,7 +41,8 @@ export const Home = ({ token, username }) => {
             </div>
             <TodoForm refreshTodoList={refreshTodoList} />
             <TodoList refresh={refresh} />
-            <LogoutButton />
+            <LogoutButton /> <br />
+            <img id='todo-list' style={{ height:'180px'}} src={list} alt='todo-list' />
         </>
     );
 };
@@ -62,4 +58,3 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
-
