@@ -245,7 +245,7 @@ app.post('/login', async (req, res) => {
   
       
       const mailOptions = {
-        from: 'Icy To Do <no-reply@clinttheengineer.com>',
+        from: 'The Cold List <no-reply@clinttheengineer.com>',
         to: email, 
         subject: 'Password Reset',
         html: `
