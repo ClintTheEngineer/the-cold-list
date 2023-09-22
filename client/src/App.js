@@ -20,7 +20,7 @@ function App() {
     <Route path="*" element={<Navigate to="/" />} /> 
     <Route path="/login" exact element={<Login setToken={setToken} appName={appName} />} />    
     <Route path="/forgot-password" element={<ForgotPassword />} />
-    <Route path="/validate-password" component={token} element={<ResetPassword />} />
+    <Route path="validate-password" component={token} element={<ResetPassword />} />
     </Routes>
     </Router>
     </div>
