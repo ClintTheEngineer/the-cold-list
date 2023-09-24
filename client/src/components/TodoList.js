@@ -10,7 +10,7 @@ const TodoList = ({ username, refresh }) => {
 
  useEffect(() => {
   if (refresh) {
-    fetch('/todos') 
+    fetch('https://filthy-sweatshirt-boa.cyclic.app/todos') 
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -28,7 +28,7 @@ const TodoList = ({ username, refresh }) => {
 }, [username, refresh]);
 
 useEffect(() => {
-  fetch('/todos') 
+  fetch('https://filthy-sweatshirt-boa.cyclic.app/todos') 
     .then((response) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -51,7 +51,7 @@ const handleDeleteTodo = async (todoId) => {
     return;
   }
     try {
-      const response = await fetch(`/deleteTodo/${todoId}`, {
+      const response = await fetch(`https://filthy-sweatshirt-boa.cyclic.app/deleteTodo/${todoId}`, {
         method: 'DELETE',
       });
      setTodos(todos.filter((todo) => todo.id !== todoId))
@@ -78,7 +78,7 @@ const handleDeleteTodo = async (todoId) => {
 
   const handleSaveEdit = async () => {
     try {
-      const response = await fetch(`/editTodos/${editTodoId}`, {
+      const response = await fetch(`https://filthy-sweatshirt-boa.cyclic.app/editTodos/${editTodoId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

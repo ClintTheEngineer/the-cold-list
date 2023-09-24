@@ -3,7 +3,10 @@ import { useNavigate } from 'react-router';
 import { connect } from 'react-redux'; 
 import { setUserInfo } from '../store/actions'; 
 import icecube from '../assets/cubemelt-melt.gif';
+import { Link } from 'react-router-dom';
 import '../../src/App.css';
+import SignUpButton from './SignUpButton';
+import { HomeButton } from './HomeButton';
 
 
 const Login = ({ setToken, setUserInfo }) => {
@@ -22,7 +25,7 @@ const Login = ({ setToken, setUserInfo }) => {
 
   const HandleLogin = async () => {
     try {
-      const response = await fetch('/login', {
+      const response = await fetch('https://filthy-sweatshirt-boa.cyclic.app/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -59,8 +62,8 @@ const Login = ({ setToken, setUserInfo }) => {
 
   return (
     <div>
-      <button id='home-btn' onClick={() => window.location.href = '/'}>Home</button>
-      <button id="sign-up-btn" onClick={() => window.location.href = '/register'} title='Create an account'>Sign Up</button>
+      <HomeButton />
+      <SignUpButton />
       <h2 id='login-hdr' className='app-name'>{appName}</h2>
       <input
         type="text"
@@ -76,7 +79,7 @@ const Login = ({ setToken, setUserInfo }) => {
         onKeyUp={handleKeyPress}
       />
       <button id='login-btn' onClick={HandleLogin} onKeyUp={handleKeyPress}>Login</button>
-      <a id='reset-pswd' href='/forgot-password' title='Click here to reset your password'>Forgot Password?</a>
+      <Link id='reset-pswd' title='Click here to reset your password' to="/forgot-password">Forgot Password</Link>
       <p>{errorMessage}</p>
       <img src={icecube} alt='Melting ice cube' />
     </div>

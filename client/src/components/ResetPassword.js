@@ -7,6 +7,8 @@ function ResetPassword() {
   const [message, setMessage] = useState('');
   const [token, setToken] = useState('');
  
+  const navigate = useNavigate();
+
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
     const tokenFromQuery = queryParams.get('token');
@@ -14,13 +16,16 @@ function ResetPassword() {
     if (tokenFromQuery) {
       setToken(tokenFromQuery);
     }
-  }, []);
+    if (!tokenFromQuery) {
+      navigate('/')
+    }
+  }, [navigate]);
  
- const navigate = useNavigate();
+ 
   useEffect(() => {
     const validateToken = async () => {
       try {
-        const response = await fetch(`/validate-password/${token}`, {
+        const response = await fetch(`https://filthy-sweatshirt-boa.cyclic.app/validate-password/${token}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -53,7 +58,7 @@ function ResetPassword() {
     return;
   }
   
-      const response = await fetch(`/reset-password/${token}`, {
+      const response = await fetch(`https://filthy-sweatshirt-boa.cyclic.app/reset-password/${token}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

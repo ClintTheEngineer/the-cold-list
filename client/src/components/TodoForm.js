@@ -17,7 +17,7 @@ const TodoForm = ({ username, refreshTodoList }) => {
           username: username,
           task_name: newTodo.trim(),
         };
-        const response = await fetch('/addtodos', {
+        const response = await fetch('https://filthy-sweatshirt-boa.cyclic.app/addtodos', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

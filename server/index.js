@@ -1,4 +1,5 @@
 const express = require('express');
+const app = express();
 
 const cors = require('cors');
 const pool = require('./db');
@@ -12,19 +13,16 @@ const secretKey = crypto.randomBytes(32).toString('hex');
 const nodemailer = require('nodemailer');
 
 
-const app = express();
-
-
-
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+
 app.use(express.urlencoded({ extended: true }));
 // Routes
 app.post('/test', (req, res) => {
   res.json({ message: 'Received!' });
 });
-
 
 
 
@@ -251,7 +249,7 @@ app.post('/login', async (req, res) => {
         html: `
           <p>You have requested to reset your password.</p>
           <p>Click the following link to reset your password:</p>
-          <a href="http://localhost:3000/validate-password?token=${token}">Reset Password</a>
+          <a href="https://the-cold-list.netlify.app/validate-password?token=${token}">Reset Password</a>
         `,
       };
   

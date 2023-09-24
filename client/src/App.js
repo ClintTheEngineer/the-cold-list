@@ -13,7 +13,7 @@ function App() {
 
   return (
     <div className="App">    
-    <Router>
+    <Router basename='/'>
     <Routes>
     <Route path='/' exact element={<Home />} component={TodoForm} />
     <Route path="/register" element={<Register />} />

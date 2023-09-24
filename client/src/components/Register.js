@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { HomeButton } from './HomeButton';
 
 function Register() {
   const [username, setUsername] = useState('');
@@ -34,7 +35,7 @@ function Register() {
     }
 
     try {
-      const response = await fetch('/register', {
+      const response = await fetch('https://filthy-sweatshirt-boa.cyclic.app/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -61,7 +62,7 @@ function Register() {
 
   return (
     <div>
-      <button id='home-btn' onClick={() => window.location.href = '/login'}>Home</button>
+      <HomeButton />
       <h2 id='register'>Registration</h2>
       <input
         type="text"
