@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
-import { connect } from 'react-redux'; 
-import { setUserInfo } from '../store/actions'; 
 import icecube from '../assets/cubemelt-melt.gif';
 import { Link } from 'react-router-dom';
 import '../../src/App.css';
@@ -39,7 +37,6 @@ const Login = ({ setToken, setUserInfo }) => {
         setToken(token);
         localStorage.setItem('token', token);
         localStorage.setItem('username', username);
-        setUserInfo(token, username)
         navigate('/');
       } else if(response.status === 400){
         setErrorMessage('Login failed')
@@ -86,8 +83,4 @@ const Login = ({ setToken, setUserInfo }) => {
   );
 }
 
-const mapDispatchToProps = {
-  setUserInfo: setUserInfo,
-};
-
-export default connect(null, mapDispatchToProps)(Login);
+export default Login;

@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { setUserInfo } from '../store/actions';
 import { useNavigate } from 'react-router';
 import LogoutButton from './LogoutButton';
 import TodoForm from './TodoForm';
@@ -47,14 +45,4 @@ export const Home = ({ token, username }) => {
     );
 };
 
-const mapStateToProps = (state) => ({
-    token: state.user.token,
-    username: state.user.username,
-});
-
-
-const mapDispatchToProps = {
-    setUserInfo: setUserInfo,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default Home;
