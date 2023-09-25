@@ -1,4 +1,6 @@
-# ice-take
+# the-cold-list
+Web app live at: https://the-cold-list.netlify.app/
+
 Backend (Node.js with Express.js):
 
     It uses Express.js to create a web server.
