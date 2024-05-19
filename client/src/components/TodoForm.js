@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Constants } from './Constants';
 
 
 const TodoForm = ({ username, refreshTodoList }) => {
@@ -17,7 +18,7 @@ const TodoForm = ({ username, refreshTodoList }) => {
           username: username,
           task_name: newTodo.trim(),
         };
-        const response = await fetch('https://filthy-sweatshirt-boa.cyclic.app/addtodos', {
+        const response = await fetch(`${Constants.SERVER_URL}/${username}/todos`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

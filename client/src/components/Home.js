@@ -6,22 +6,23 @@ import TodoList from './TodoList';
 import list from '../assets/list.gif';
 
 
-export const Home = ({ token, username }) => {
+export const Home = ({ token, email }) => {
   const [refresh, setRefresh] = useState(false);
-  token = localStorage.getItem('token')
-  username = localStorage.getItem('username');
+  token = localStorage.getItem('token');
+  email = localStorage.getItem('email');
   const navigate = useNavigate();
   const appName = 'The Cold List';
-    
+  const username = localStorage.getItem('username');
 
     useEffect(() => {
         const storedToken = localStorage.getItem('token');        
         if (!storedToken) {
             navigate('/login');
         } else {
+            const storedEmail = localStorage.getItem('email');
             const storedUsername = localStorage.getItem('username');
             
-            if (!storedUsername) {
+            if (!storedEmail || !storedUsername) {
                 navigate('/login');
             }
         }
@@ -35,7 +36,7 @@ export const Home = ({ token, username }) => {
         <>
             <h1 className='app-name'>{appName}</h1>
             <div className="user-info">
-                <p>Hello, {username ? username.toUpperCase() : ''}</p>
+                <p>Hello, {username ? username.toUpperCase() : 'User'}</p>
             </div>
             <TodoForm refreshTodoList={refreshTodoList} />
             <TodoList refresh={refresh} />

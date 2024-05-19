@@ -5,11 +5,13 @@ import { Link } from 'react-router-dom';
 import '../../src/App.css';
 import SignUpButton from './SignUpButton';
 import { HomeButton } from './HomeButton';
+import { Constants } from './Constants';
 
 
 const Login = ({ setToken, setUserInfo }) => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
   const [errorMessage, setErrorMessage] = useState('')
   const navigate = useNavigate();
   const appName = 'The Cold List';
@@ -23,20 +25,23 @@ const Login = ({ setToken, setUserInfo }) => {
 
   const HandleLogin = async () => {
     try {
-      const response = await fetch('https://filthy-sweatshirt-boa.cyclic.app/login', {
+      const response = await fetch(`${Constants.SERVER_URL}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ username, password })
+        body: JSON.stringify({ email, password })
       });
 
       const data = await response.json();
       if (response.status === 200) {
         const token = data.token;
+        const username = data.username;
+        setUsername(username);
         setToken(token);
         localStorage.setItem('token', token);
-        localStorage.setItem('username', username);
+        localStorage.setItem('email', email);
+        localStorage.setItem('username', username)
         navigate('/');
       } else if(response.status === 400){
         setErrorMessage('Login failed')
@@ -55,7 +60,7 @@ const Login = ({ setToken, setUserInfo }) => {
     }
   };
 
-
+console.log(username);
 
   return (
     <div>
@@ -65,8 +70,8 @@ const Login = ({ setToken, setUserInfo }) => {
       <input
         type="text"
         placeholder="Username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
       />
       <input
         type="password"

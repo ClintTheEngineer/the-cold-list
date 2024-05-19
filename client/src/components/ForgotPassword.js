@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { HomeButton } from './HomeButton';
+import { Constants } from './Constants';
 
 function ForgotPassword() {
   const [email, setEmail] = useState('');
@@ -10,7 +11,7 @@ function ForgotPassword() {
 
   const handleResetPassword = async () => {
     try {
-      const response = await fetch('https://filthy-sweatshirt-boa.cyclic.app/forgot-password', {
+      const response = await fetch(`${Constants.SERVER_URL}/forgot-password`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

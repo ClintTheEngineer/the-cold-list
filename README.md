@@ -3,7 +3,7 @@ Backend (Node.js with Express.js):
 
     It uses Express.js to create a web server.
     It defines multiple routes for various API endpoints.
-    It connects to a PostgreSQL database using the pg library and retrieves data from the Users and Todos tables.
+    It connects to a CanderDB database (a custom-built solution) enabling full CRUD functionality for the Users and Todos tables.
     It handles user registration, login, and password reset functionality.
     It sends emails for password reset requests using Nodemailer.
     It defines middleware for handling CORS, parsing JSON and URL-encoded request bodies, and handling errors.

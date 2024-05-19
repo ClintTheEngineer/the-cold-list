@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
+import { Constants } from './Constants';
 
 function ResetPassword() {
   const [password, setPassword] = useState('');
@@ -25,7 +26,7 @@ function ResetPassword() {
   useEffect(() => {
     const validateToken = async () => {
       try {
-        const response = await fetch(`https://filthy-sweatshirt-boa.cyclic.app/validate-password/${token}`, {
+        const response = await fetch(`${Constants.SERVER_URL}/validate-password/${token}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -58,7 +59,7 @@ function ResetPassword() {
     return;
   }
   
-      const response = await fetch(`https://filthy-sweatshirt-boa.cyclic.app/reset-password/${token}`, {
+      const response = await fetch(`${Constants.SERVER_URL}/reset-password/${token}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

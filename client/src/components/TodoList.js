@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Constants } from './Constants';
 
 const TodoList = ({ username, refresh }) => {
   const [todos, setTodos] = useState([]);
@@ -10,7 +11,7 @@ const TodoList = ({ username, refresh }) => {
 
  useEffect(() => {
   if (refresh) {
-    fetch('https://filthy-sweatshirt-boa.cyclic.app/todos') 
+    fetch(`${Constants.SERVER_URL}/${username}/todos`) 
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -28,7 +29,7 @@ const TodoList = ({ username, refresh }) => {
 }, [username, refresh]);
 
 useEffect(() => {
-  fetch('https://filthy-sweatshirt-boa.cyclic.app/todos') 
+  fetch(`${Constants.SERVER_URL}/${username}/todos`) 
     .then((response) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -51,7 +52,7 @@ const handleDeleteTodo = async (todoId) => {
     return;
   }
     try {
-      const response = await fetch(`https://filthy-sweatshirt-boa.cyclic.app/deleteTodo/${todoId}`, {
+      const response = await fetch(`${Constants.SERVER_URL}/${username}/todos/${todoId}`, {
         method: 'DELETE',
       });
      setTodos(todos.filter((todo) => todo.id !== todoId))
@@ -78,7 +79,7 @@ const handleDeleteTodo = async (todoId) => {
 
   const handleSaveEdit = async () => {
     try {
-      const response = await fetch(`https://filthy-sweatshirt-boa.cyclic.app/editTodos/${editTodoId}`, {
+      const response = await fetch(`${Constants.SERVER_URL}/${username}/todos/${editTodoId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -104,9 +105,9 @@ const handleDeleteTodo = async (todoId) => {
     <div>
       <h2>Todo List</h2>
       <ul>
-        {todos.map((todo) => (
-          <li key={todo.id} className='list-map'>
-            {editMode && editTodoId === todo.id ? (
+        {todos.map((todo, index) => (
+          <li key={index+1} className='list-map'>
+            {editMode && editTodoId === index+1 ? (
               <>
                 <input
                   type="text"
@@ -118,9 +119,9 @@ const handleDeleteTodo = async (todoId) => {
               </>
             ) : (
               <>
-                <button className='edit-btn' onClick={() => handleEditTodo(todo.id, todo.task_name)}>Edit</button>
+                <button className='edit-btn' onClick={() => handleEditTodo(index+1, todo.task_name)}>Edit</button>
                 {todo.task_name}
-                <button className='delete-btn' onClick={() => handleDeleteTodo(todo.id)}>Delete</button>
+                <button className='delete-btn' onClick={() => handleDeleteTodo(index+1)}>Delete</button>
               </>
             )}
           </li>

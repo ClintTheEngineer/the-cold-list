@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { HomeButton } from './HomeButton';
+import { Constants } from './Constants';
 
 function Register() {
   const [username, setUsername] = useState('');
@@ -35,7 +36,7 @@ function Register() {
     }
 
     try {
-      const response = await fetch('https://filthy-sweatshirt-boa.cyclic.app/register', {
+      const response = await fetch(`${Constants.SERVER_URL}/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
