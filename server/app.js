@@ -11,9 +11,39 @@ const port = process.env.PORT || 8080;
 const userEmail = 'mmaaced@gmail.com';
 const instanceName = 'links';
 const tableName = 'ice_users.db';
+const fs = require('fs');
 const secretKey = process.env.SECRET_KEY; 
 
 app.use(bodyParser.json()); 
+
+const verifyCredentials = async (email, password) => {
+  try {
+    const filePath = `https://cander-db.com/instances/mmaaced@gmail.com/links/ice_users.db`;
+    const response = await fetch(filePath, {
+      headers: {
+        'Authorization': `${process.env.ACCESS_TOKEN}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`Network response was not ok: ${response.statusText}`);
+    }
+
+    const userData = await response.json();
+    console.log(userData)
+    for (const entry of userData) {
+      if (entry.email === email) {
+        const hashedPassword = entry.hashed_password;
+        return await bcrypt.compare(password, hashedPassword);
+      }
+    }
+    return false; // Email not found
+  } catch (error) {
+    console.error('Error verifying credentials:', error);
+    return false;
+  }
+};
 
 
 
