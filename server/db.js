@@ -39,10 +39,10 @@ const makeRequest = (method, path, data) => {
     });
 };
 
-function fetchTableContent(userEmail, instanceName, tableName) {
+function fetchTableContent(instanceName, tableName) {
     const options = {
         hostname: dbConfig.hostname,
-        path: `/instances/${userEmail}/${instanceName}/${tableName}`,
+        path: `/instances/${instanceName}/${tableName}`,
         method: 'GET',
         headers: dbConfig.headers
     };
@@ -72,10 +72,10 @@ function fetchTableContent(userEmail, instanceName, tableName) {
     });
 }
 
-function addUser(userEmail, instanceName, tableName, newUser) {
+function addUser(instanceName, tableName, newUser) {
     const options = {
         hostname: dbConfig.hostname,
-        path: `/instances/${userEmail}/${instanceName}/${tableName}`,
+        path: `/instances/${instanceName}/${tableName}`,
         method: 'POST',
         headers: dbConfig.headers
     };
@@ -109,7 +109,7 @@ function addUser(userEmail, instanceName, tableName, newUser) {
 // Function to check if email exists
 const checkEmailExists = async (email) => {
     try {
-        const users = await makeRequest('GET', '/instances/mmaaced@gmail.com/links/ice_users.db');
+        const users = await makeRequest('GET', '/instances/links/ice_users.db');
         return users.some(user => user.email === email);
     } catch (error) {
         console.error('Error checking if email exists:', error);
@@ -118,8 +118,8 @@ const checkEmailExists = async (email) => {
 };
 
 
-async function fetchUserByEmail(userEmail, instanceName, tableName, email) {
-    const users = await fetchTableContent(userEmail, instanceName, tableName);
+async function fetchUserByEmail(instanceName, tableName, email) {
+    const users = await fetchTableContent(instanceName, tableName);
     return users.find(user => user.email === email);
 }
 

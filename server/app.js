@@ -8,7 +8,6 @@ const bodyParser = require('body-parser');
 const db = require('./db');
 const app = express();
 const port = process.env.PORT || 8080;
-const userEmail = 'mmaaced@gmail.com';
 const instanceName = 'links';
 const tableName = 'ice_users.db';
 const fs = require('fs');
@@ -18,7 +17,7 @@ app.use(bodyParser.json());
 
 const verifyCredentials = async (email, password) => {
   try {
-    const filePath = `https://cander-db.com/instances/mmaaced@gmail.com/links/ice_users.db`;
+    const filePath = `https://cander-db.com/instances/links/ice_users.db`;
     const response = await fetch(filePath, {
       headers: {
         'Authorization': `${process.env.ACCESS_TOKEN}`,
@@ -61,7 +60,7 @@ app.post('/register', async (req, res) => {
     }
 
         // Check if user already exists
-        const existingUser = await db.fetchUserByEmail(userEmail, instanceName, tableName, email);
+        const existingUser = await db.fetchUserByEmail(instanceName, tableName, email);
         if (existingUser) {
             return res.status(400).json({ error: 'User already exists' });
         }
@@ -71,7 +70,7 @@ app.post('/register', async (req, res) => {
 
         // Create new user
         const newUser = { username, email, hashed_password: hashedPassword };
-        const result = await db.addUser(userEmail, instanceName, tableName, newUser);
+        const result = await db.addUser(instanceName, tableName, newUser);
         
 
         res.status(201).json({ message: 'User registered successfully', user: result });
@@ -87,7 +86,7 @@ app.post('/login', async (req, res) => {
         const { email, password } = req.body;
 
         // Fetch user by email
-        const user = await db.fetchUserByEmail(userEmail, instanceName, tableName, email);
+        const user = await db.fetchUserByEmail(instanceName, tableName, email);
         if (!user) {
             return res.status(400).json({ error: 'Invalid email or password' });
         }
@@ -127,7 +126,7 @@ app.post('/forgot-password', async (req, res) => {
 
       // Store the token and its expiration timestamp in the database
       const newToken = { token, email, expiration_time: expirationTime };
-      await db.makeRequest('POST', '/instances/mmaaced@gmail.com/links/reset_tokens.db', newToken);
+      await db.makeRequest('POST', '/instances/links/reset_tokens.db', newToken);
 
       const transporter = nodemailer.createTransport({
           service: 'Gmail',
@@ -169,7 +168,7 @@ app.post('/reset-password/:token', async (req, res) => {
       const { token } = req.params;
       const { newPassword } = req.body;
 
-      const query = `/instances/mmaaced@gmail.com/links/reset_tokens.db`;
+      const query = `/instances/links/reset_tokens.db`;
       const result = await db.makeRequest('GET', query);
       const tokenData = result.find(t => t.token === token && new Date(t.expiration_time) > new Date());
 
@@ -180,11 +179,11 @@ app.post('/reset-password/:token', async (req, res) => {
       const email = tokenData.email;
       console.log(email)
       const hashedPassword = await bcrypt.hash(newPassword, 10);
-      const updateQuery = `/instances/mmaaced@gmail.com/links/ice_users.db`;
+      const updateQuery = `/instances/links/ice_users.db`;
       await db.makeRequest('PUT', updateQuery, { password_hash: hashedPassword });
 
       // Delete the used token from the reset_tokens table
-      await db.makeRequest('DELETE', `/instances/mmaaced@gmail.com/links/reset_tokens.db/${tokenData.id}`);
+      await db.makeRequest('DELETE', `/instances/links/reset_tokens.db/${tokenData.id}`);
 
       res.status(200).json({ message: 'Password reset successful' });
   } catch (error) {
@@ -199,7 +198,7 @@ app.get('/validate-password/:token', async (req, res) => {
   try {
       const { token } = req.params;
       // Query the database to check if the token exists and is not expired
-      const query = `/instances/mmaaced@gmail.com/links/reset_tokens.db`;
+      const query = `/instances/links/reset_tokens.db`;
       const result = await db.makeRequest('GET', query);
       const tokenData = result.find(t => t.token === token && new Date(t.expiration_time) > new Date());
 
@@ -217,13 +216,13 @@ app.get('/validate-password/:token', async (req, res) => {
 async function deleteExpiredTokens() {
   try {
       const currentTime = new Date().toISOString();
-      const query = `/instances/mmaaced@gmail.com/links/reset_tokens.db`;
+      const query = `/instances/links/reset_tokens.db`;
       const result = await db.makeRequest('GET', query);
 
       const expiredTokens = result.filter(token => new Date(token.expiration_time) <= new Date(currentTime));
 
       for (const token of expiredTokens) {
-          await db.makeRequest('DELETE', `/instances/mmaaced@gmail.com/links/reset_tokens.db/${token.id}`);
+          await db.makeRequest('DELETE', `/instances/links/reset_tokens.db/${token.id}`);
       }
 
       console.log(`Deleted ${expiredTokens.length} expired tokens`);
@@ -241,7 +240,7 @@ app.get('/:username/todos', async (req, res) => {
   const { username } = req.params;
 
   try {
-      const todos = await db.makeRequest('GET', '/instances/mmaaced@gmail.com/links/todos.db');
+      const todos = await db.makeRequest('GET', '/instances/links/todos.db');
       const userTodos = todos.filter(todo => todo.username === username);
       res.status(200).json(userTodos);
   } catch (error) {
@@ -262,7 +261,7 @@ app.post('/:username/todos', async (req, res) => {
   const newTodo = { username, task_name };
 
   try {
-      await db.makeRequest('POST', '/instances/mmaaced@gmail.com/links/todos.db', newTodo);
+      await db.makeRequest('POST', '/instances/links/todos.db', newTodo);
       res.status(201).send('Todo created successfully');
   } catch (error) {
       res.status(500).send('Internal server error');
@@ -281,7 +280,7 @@ app.put('/:username/todos/:id', async (req, res) => {
   }
 
   try {
-      const todos = await db.makeRequest('GET', '/instances/mmaaced@gmail.com/links/todos.db');
+      const todos = await db.makeRequest('GET', '/instances/links/todos.db');
       const userTodos = todos.filter(todo => todo.username === username);
 
       const todoIndex = parseInt(id) - 1;
@@ -292,7 +291,7 @@ app.put('/:username/todos/:id', async (req, res) => {
       const todo = userTodos[todoIndex];
       todo.task_name = task_name;
 
-      await db.makeRequest('PUT', `/instances/mmaaced@gmail.com/links/todos.db/${todoIndex + 1}`, todo);
+      await db.makeRequest('PUT', `/instances/links/todos.db/${todoIndex + 1}`, todo);
       res.status(200).send('Todo updated successfully');
   } catch (error) {
       res.status(500).send('Internal server error');
@@ -305,7 +304,7 @@ app.delete('/:username/todos/:id', async (req, res) => {
   const { id, username } = req.params;
 
   try {
-      const todos = await db.makeRequest('GET', '/instances/mmaaced@gmail.com/links/todos.db');
+      const todos = await db.makeRequest('GET', '/instances/links/todos.db');
       const userTodos = todos.filter(todo => todo.username === username);
 
       const todoIndex = parseInt(id) - 1;
@@ -313,7 +312,7 @@ app.delete('/:username/todos/:id', async (req, res) => {
           return res.status(404).send('Todo not found');
       }
 
-      await db.makeRequest('DELETE', `/instances/mmaaced@gmail.com/links/todos.db/${todoIndex + 1}`);
+      await db.makeRequest('DELETE', `/instances/links/todos.db/${todoIndex + 1}`);
       res.status(200).send('Todo deleted successfully');
   } catch (error) {
       res.status(500).send('Internal server error');
