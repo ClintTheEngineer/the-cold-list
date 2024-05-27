@@ -240,7 +240,7 @@ app.get('/:username/todos', async (req, res) => {
   const { username } = req.params;
 
   try {
-      const todos = await db.makeRequest('GET', '/instances/links/todos.db', null);
+      const todos = await db.makeRequest('GET', `/instances/links/${username}_todos.db`, null);
       const userTodos = todos.filter(todo => todo.username === username);
       res.status(200).json(userTodos);
   } catch (error) {
