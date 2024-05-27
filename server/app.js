@@ -240,8 +240,8 @@ app.get('/:username/todos', async (req, res) => {
   const { username } = req.params;
 
   try {
-      const todos = await db.makeRequest('GET', `/instances/links/${username}_todos.db`, null);
-      const userTodos = todos.filter(todo => todo.username === username);
+      const todos = await db.makeRequest('GET', '/instances/links/todos.db', null);
+      const userTodos = todos.entries.filter(task_name => task_name.username === username);
       res.status(200).json(userTodos);
   } catch (error) {
       res.status(500).send('Internal server error');
