@@ -322,15 +322,15 @@ app.delete('/:username/todos/:id', async (req, res) => {
 
 
 
-async function startServer() {
+//async function startServer() {
 
-  await deleteExpiredTokens();
+ // await deleteExpiredTokens();
 
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
 
-}
+//}
 
-startServer();
+//startServer();
