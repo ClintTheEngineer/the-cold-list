@@ -233,6 +233,10 @@ async function deleteExpiredTokens() {
 }
 
 
+app.get('/', (req, res) => {
+    res.send('Hello World!');
+})
+
 
 
 // View all todos for the logged-in user
@@ -241,10 +245,10 @@ app.get('/:username/todos', async (req, res) => {
 
   try {
       const todos = await db.makeRequest('GET', '/instances/links/todos.db', null);
-      const userTodos = todos.entries.filter(task_name => task_name.username === username);
+      const userTodos = todos.filter(task_name => task_name.username === username);
       res.status(200).json(userTodos);
-  } catch (error) {
-      res.status(500).send('Internal server error');
+} catch (error) {
+      res.status(500).send(`${error}`);
   }
 });
 
