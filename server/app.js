@@ -30,7 +30,6 @@ const verifyCredentials = async (email, password) => {
     }
 
     const userData = await response.json();
-    console.log(userData)
     for (const entry of userData) {
       if (entry.email === email) {
         const hashedPassword = entry.hashed_password;

@@ -1,8 +1,8 @@
 export const Constants = {
     SERVER_URL: (() => {
         const currentBaseUrl = window.location.hostname;
-        if (currentBaseUrl === 'https://the-cold-list.netlify.app') {
-            return 'https://cander-db.com';
+        if (currentBaseUrl === 'the-cold-list.netlify.app') {
+            return 'https://ice-server.onrender.com';
         } else {
             return 'http://localhost:8080';
         }
