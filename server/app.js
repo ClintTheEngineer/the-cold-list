@@ -15,6 +15,13 @@ const secretKey = process.env.SECRET_KEY;
 
 app.use(bodyParser.json()); 
 
+// Enable CORS for all routes
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*'); // Allow requests from any origin
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+  });
+
 const verifyCredentials = async (email, password) => {
   try {
     const filePath = `https://cander-db.com/instances/links/ice_users.db`;
