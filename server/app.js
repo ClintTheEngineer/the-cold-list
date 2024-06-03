@@ -10,7 +10,6 @@ const app = express();
 const port = process.env.PORT || 8080;
 const instanceName = 'links';
 const tableName = 'ice_users.db';
-const fs = require('fs');
 const secretKey = process.env.SECRET_KEY; 
 
 app.use(bodyParser.json()); 
