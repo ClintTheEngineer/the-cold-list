@@ -42,7 +42,7 @@ const makeRequest = (method, path, data) => {
 function fetchTableContent(instanceName, tableName) {
     const options = {
         hostname: dbConfig.hostname,
-        path: `/instances/${instanceName}/${tableName}`,
+        path: `/api/instances/${instanceName}/${tableName}`,
         method: 'GET',
         headers: dbConfig.headers
     };
@@ -75,7 +75,7 @@ function fetchTableContent(instanceName, tableName) {
 function addUser(instanceName, tableName, newUser) {
     const options = {
         hostname: dbConfig.hostname,
-        path: `/instances/${instanceName}/${tableName}`,
+        path: `/api/instances/${instanceName}/${tableName}`,
         method: 'POST',
         headers: dbConfig.headers
     };
@@ -109,7 +109,7 @@ function addUser(instanceName, tableName, newUser) {
 // Function to check if email exists
 const checkEmailExists = async (email) => {
     try {
-        const users = await makeRequest('GET', '/instances/links/ice_users.db');
+        const users = await makeRequest('GET', '/api/instances/links/ice_users.db');
         return users.some(user => user.email === email);
     } catch (error) {
         console.error('Error checking if email exists:', error);
